@@ -1,10 +1,6 @@
 # ispringcloud
 #### Spring Cloud 构建微服务的基本组件
 
-![image-20210220105452228](/Users/xuezhang/Library/Application Support/typora-user-images/image-20210220105452228.png)
-
-
-
 Spring Cloud 的服务治理使用 Eureka 来实现，Eureka 是Netflix 开源的REST的服务治理解决方案，Spring Cloud 集成了Eureka，提供服务注册和服务发现的功能，可以和基于Spring boot 搭建的微服务应用轻松完成整合，开箱即用，Spring Cloud Eureka。
 
 #### Spring Cloud Eureka
@@ -688,9 +684,6 @@ public class ZuulApplication {
 Spring Cloud Ribbon 是一个负载均衡的解决方案，Ribbon 是Netflix 发布的负载均衡器，Spring Cloud Ribbon 是基于Netflix Ribbon 实现的，是一个用于对HTPP 控制的负载均衡客户端。
 
 在注册中心对Ribbon 进行注册之后，Ribbon就可以基于某种负载均衡算法，如轮询，随机，加权轮询，加权随机等自动帮助服务消费者调用接口，开发者也可以根据需求自定义负载均衡算法。实际开发中，Spring Cloud Ribbon 需要结合Spring Cloud Eureka 使用，Eureka Server 提供所有可以调用的服务提供者列表，Ribbon 基于特定的负载均衡算法从这些服务提供者中选择要调用的实例。
-
-![image-20210221220856662](/Users/xuezhang/Library/Application Support/typora-user-images/image-20210221220856662.png)
-
 
 
 - 创建Module，pom.xml
