@@ -6,15 +6,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="native-config-client" />
+        <module name="hystrix" />
         <module name="zuul" />
         <module name="rest-template" />
         <module name="eureka-client" />
+        <module name="config-server" />
         <module name="native-config-server" />
         <module name="feign" />
-        <module name="hystrix" />
         <module name="ribbon" />
         <module name="restTemplate" />
+        <module name="config-client" />
+        <module name="native-config-client" />
         <module name="eurekaserver" />
         <module name="consumer" />
       </profile>
@@ -25,6 +27,8 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="config-client" options="-parameters" />
+      <module name="config-server" options="-parameters" />
       <module name="consumer" options="-parameters" />
       <module name="eureka-client" options="-parameters" />
       <module name="eurekaserver" options="-parameters" />
