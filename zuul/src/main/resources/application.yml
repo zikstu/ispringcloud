@@ -1,0 +1,19 @@
+server:
+  port: 8104
+spring:
+  application:
+    name: gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+info:
+  app.name: gateway
+  build.artifactId: gateway
+  build.version: 0.0.1-SNAPSHOT
+
+zuul:
+  routes:
+    eureka-client: /e/**

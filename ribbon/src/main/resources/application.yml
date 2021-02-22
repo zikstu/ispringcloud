@@ -1,0 +1,17 @@
+server:
+  port: 8105
+spring:
+  application:
+    name: ribbon
+
+eureka:
+  client:
+    service-url:
+      defaultZon: http://127.0.0.1:8671/eureka/
+  instance:
+    prefer-ip-address: true
+
+info:
+  app:name: ribbon
+  build.artifactId: ribbon
+  build.version: 0.0.1-SNAPSHOT

@@ -1,0 +1,19 @@
+server:
+  port: 8101
+spring:
+  application:
+    name: eureka-client
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+    fetch-registry: false
+  instance:
+    prefer-ip-address: true
+
+
+info:
+  app:name: eureka-client
+  build.artifactId: eureka-client
+  build.version: 0.0.1-SNAPSHOT

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="native-config-client" />
+        <module name="zuul" />
+        <module name="rest-template" />
+        <module name="eureka-client" />
+        <module name="native-config-server" />
+        <module name="feign" />
+        <module name="hystrix" />
+        <module name="ribbon" />
+        <module name="restTemplate" />
+        <module name="eurekaserver" />
+        <module name="consumer" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="rest-template" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="consumer" options="-parameters" />
+      <module name="eureka-client" options="-parameters" />
+      <module name="eurekaserver" options="-parameters" />
+      <module name="feign" options="-parameters" />
+      <module name="hystrix" options="-parameters" />
+      <module name="native-config-client" options="-parameters" />
+      <module name="native-config-server" options="-parameters" />
+      <module name="rest-template" options="-parameters" />
+      <module name="restTemplate" options="-parameters" />
+      <module name="ribbon" options="-parameters" />
+      <module name="zuul" options="-parameters" />
+    </option>
+  </component>
+</project>

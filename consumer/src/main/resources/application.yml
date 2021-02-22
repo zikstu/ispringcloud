@@ -1,0 +1,17 @@
+server:
+  port: 8103
+spring:
+  application:
+    name: consumer
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: consumer
+
+info:
+  app.name: consumer
+  build.artifactId: consumer
+  build.version: 0.0.1-SNAPSHOT

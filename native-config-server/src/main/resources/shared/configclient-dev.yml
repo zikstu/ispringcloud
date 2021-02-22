@@ -1,0 +1,3 @@
+server:
+  port: 8108
+foo: foo version 1
