@@ -1423,3 +1423,410 @@ public class NativeConfigHandler {
 
 #### Spring Cloud Config 远程配置
 
+##### 创建Config Server
+
+- 项目根目录下创建配置文件夹config，添加配置文件configclient.yml
+
+```yaml
+server:
+  port: 8109
+spring:
+  application:
+    name: configclient
+
+eureka:
+  client:
+    serverUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+test: 测试+1
+```
+
+- 创建Module，pom.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ispringcloud</artifactId>
+        <groupId>com.xuezhang</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>config-server</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+            <version>2.1.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>2.0.3.RELEASE</version>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+- 创建配置文件 application.yml
+
+```yaml
+server:
+  port: 8763
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/kanggeaiphp/ispringcloud.git
+          search-paths: config
+          username: root
+          password: root
+      label: master
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+```
+
+- 创建启动类
+
+```java
+package com.xuezhang;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
+
+/**
+ * @description:
+ * @author: 学长
+ * @date: 2021/2/22 18:45
+ */
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+```
+
+##### 创建Config Client
+
+- 创建Module，pom.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ispringcloud</artifactId>
+        <groupId>com.xuezhang</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>config-client</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>2.0.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+            <version>2.1.3.RELEASE</version>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+- 创建配置文件bootstrap.yml
+
+```yaml
+spring:
+  cloud:
+    config:
+      name: configclient
+      label: master
+      discovery:
+        enabled: true
+        service-id: config-server
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+```
+
+> 配置说明
+
+`spring.cloud.config.name`：当前服务注册在Eureka Server 上的名称，与远程仓库的配置文件名对应。
+
+`spring.cloud.config.label`：Git 仓库的分支。
+
+`spring.cloud.config.discovery.enabled`： 是否开启Config 服务发现支持。
+
+`spring.cloud.config.discovery.service-id`：配置中心在Eureka Server 上注册的名称。
+
+- 创建启动类
+
+```java
+package com.xuezhang;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * @description:
+ * @author: 学长
+ * @date: 2021/2/22 18:58
+ */
+@SpringBootApplication
+public class ConfigClientApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigClientApplication.class, args);
+    }
+}
+```
+
+- 创建控制器
+
+```java
+package com.xuezhang.controller;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @description:
+ * @author: 学长
+ * @date: 2021/2/22 19:18
+ */
+@RestController
+@RequestMapping("/hello")
+public class ConfigClientHandler {
+    @Value("${server.port}")
+    private String port;
+
+    @Value("${test}")
+    private String test;
+
+    @GetMapping("/index")
+    public String index(){
+        return this.test + "-" + this.port;
+    }
+}
+```
+
+- 依次启动Eureka Server ，Config Server ，Config Client，访问 `http://192.168.0.198:8109/hello/index` 。
+
+------
+
+#### 服务跟踪
+
+Spring Cloud Zipkin
+
+Zipkin 是一个可以采集并且跟踪分布式系统中请求数据的组件，让开发者可以更加直观的监控到请求在各个微服务所耗费的时间等。
+
+Zipkin：Zipkin Server、Zipkin Client。
+
+##### Zipkin Server
+
+- 创建Module，pom.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ispringcloud</artifactId>
+        <groupId>com.xuezhang</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zipkin-server</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.zipkin.java</groupId>
+            <artifactId>zipkin-server</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.java</groupId>
+            <artifactId>zipkin-autoconfigure-ui</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+- 创建配置文件application.yml
+
+```yaml
+server:
+  port: 8110
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+```
+
+- 创建启动类
+
+```java
+package com.xuezhang;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import zipkin.server.internal.EnableZipkinServer;
+
+/**
+ * @description:
+ * @author: 学长
+ * @date: 2021/2/22 22:09
+ */
+@SpringBootApplication
+@EnableZipkinServer
+public class ZipkinServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ZipkinServerApplication.class, args);
+    }
+}
+```
+
+> 注解说明
+
+`@EnableZipkinserver`：声明Zipkin服务端
+
+##### Zipkin 客户端
+
+- 创建Module，pom.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ispringcloud</artifactId>
+        <groupId>com.xuezhang</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zipkinclient</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <version>2.1.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>2.0.3.RELEASE</version>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+- 创建配置文件application.yml
+
+```yaml
+server:
+  port: 8111
+spring:
+  application:
+    name: zipkinclient
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://localhost:8110/
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+```
+
+- 创建启动类
+
+```java
+package com.xuezhang;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * @description:
+ * @author: 学长
+ * @date: 2021/2/22 23:23
+ */
+@SpringBootApplication
+public class ZipkinClientServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ZipkinClientServerApplication.class, args);
+    }
+}
+```
+
+- 创建控制器
+
+```java
+package com.xuezhang.controller;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @description:
+ * @author: 学长
+ * @date: 2021/2/22 23:25
+ */
+@RestController
+@RequestMapping("/zipkin")
+public class ZipkinClientHandler {
+    @Value("${server.port}")
+    private String port;
+
+    @GetMapping("/index")
+    public String index(){
+        return port;
+    }
+}
+```
+
+- 访问 `http://192.168.0.198:8110/zipkin/` 服务可视化界面
+
