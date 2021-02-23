@@ -1,0 +1,8 @@
+server:
+  port: 8110
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false

@@ -2,7 +2,9 @@ package com.xuezhang.controller;
 
 import com.xuezhang.entity.Student;
 import com.xuezhang.feign.FeignEurekaClient;
+import com.xuezhang.feign.Impl.FeignEurekaClientError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

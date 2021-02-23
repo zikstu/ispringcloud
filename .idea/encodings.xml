@@ -12,6 +12,8 @@
     <file url="file://$PROJECT_DIR$/native-config-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/restTemplate/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ribbon/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zipkin-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zipkinclient/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zuul/src/main/java" charset="UTF-8" />
   </component>
 </project>

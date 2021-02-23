@@ -6,23 +6,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="hystrix" />
+        <module name="ribbon" />
+        <module name="native-config-client" />
+        <module name="config-server" />
+        <module name="restTemplate" />
+        <module name="feign" />
+        <module name="native-config-server" />
+        <module name="eureka-client" />
         <module name="zuul" />
         <module name="rest-template" />
-        <module name="eureka-client" />
-        <module name="config-server" />
-        <module name="native-config-server" />
-        <module name="feign" />
-        <module name="ribbon" />
-        <module name="restTemplate" />
+        <module name="hystrix" />
+        <module name="zipkin-server" />
+        <module name="zipkinclient" />
         <module name="config-client" />
-        <module name="native-config-client" />
         <module name="eurekaserver" />
         <module name="consumer" />
+        <module name="test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="rest-template" target="1.8" />
+      <module name="test" target="1.8" />
+      <module name="zipkin-client" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -39,6 +44,10 @@
       <module name="rest-template" options="-parameters" />
       <module name="restTemplate" options="-parameters" />
       <module name="ribbon" options="-parameters" />
+      <module name="test" options="-parameters" />
+      <module name="zipkin-client" options="-parameters" />
+      <module name="zipkin-server" options="-parameters" />
+      <module name="zipkinclient" options="-parameters" />
       <module name="zuul" options="-parameters" />
     </option>
   </component>
