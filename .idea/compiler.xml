@@ -16,12 +16,13 @@
         <module name="zuul" />
         <module name="rest-template" />
         <module name="hystrix" />
+        <module name="rabbitmq" />
         <module name="zipkin-server" />
+        <module name="test" />
         <module name="zipkinclient" />
         <module name="config-client" />
         <module name="eurekaserver" />
         <module name="consumer" />
-        <module name="test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -41,6 +42,7 @@
       <module name="hystrix" options="-parameters" />
       <module name="native-config-client" options="-parameters" />
       <module name="native-config-server" options="-parameters" />
+      <module name="rabbitmq" options="-parameters" />
       <module name="rest-template" options="-parameters" />
       <module name="restTemplate" options="-parameters" />
       <module name="ribbon" options="-parameters" />

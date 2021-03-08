@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: rabbitmq
+  rabbitmq:
+    username: admin
+    password: admin
+    host: localhost
+    port: 5672
+server:
+  port: 8763
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: rabbitmq

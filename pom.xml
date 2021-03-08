@@ -23,6 +23,7 @@
         <module>config-client</module>
         <module>zipkin-server</module>
         <module>zipkinclient</module>
+        <module>rabbitmq</module>
     </modules>
 
     <parent>
